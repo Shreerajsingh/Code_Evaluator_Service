@@ -7,7 +7,7 @@ function sampleWorker(queueName: string) {
         queueName,
         async (job: Job) => {
             if(job.name === "SampleJob") {
-                console.log("Sample job worker kiks in", job);
+                console.log("Sample job worker kicks in");
                 const sampleJobInterface = new SampleJob(job.data);
 
                 sampleJobInterface.handle(job);

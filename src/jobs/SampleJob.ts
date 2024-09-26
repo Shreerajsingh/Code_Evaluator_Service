@@ -11,8 +11,6 @@ class SampleJob implements IJob {
     }
 
     handle = (job?: Job) => {
-        console.log("Handler for Sample Job");
-        console.log(this.payload);
         if(job) {
             console.log(job.name, job.id, job.data);
         }
