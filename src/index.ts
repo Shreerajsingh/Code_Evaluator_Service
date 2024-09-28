@@ -4,7 +4,7 @@ import serverConfig from "./config/serverConfig";
 import apiRouter from "./routes";
 import sampleWorker from "./worker/sampleWorker";
 import bodyParser from "body-parser";
-import runPython from "./containers/runPythonDocker";
+import runCpp from "./containers/runCpp";
 
 const app: Express = express();     // No need to put Type:"Epress" bcs express() tself return that.
 
@@ -19,11 +19,22 @@ app.listen(serverConfig.PORT, () => {
 
     sampleWorker('SampleQueue');
 
-    const code = `x = input()
-y = input()
-print("value of x:", x)
-print("value of y:", y)
+    const code = `
+    #include <iostream>
+    using namespace std;
+
+    int main(){
+
+	    for(int i=0;i<3;i++) {
+		    for ( int j=0;j<3;j++) {
+		        cout<<"* ";
+            }
+            cout<<endl;
+	    }
+        cout<<endl;
+        return 0;
+    }
     `;
 
-    runPython(code, "100\n200");
+    runCpp(code, "100");
 });
