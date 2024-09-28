@@ -5,8 +5,6 @@ function decodeDockerStream(buffer: Buffer): DockerStreamOutput {
     let offset = 0;
     const output: DockerStreamOutput = { stdout: '', stderr: '' };
     
-    // console.log(">>>>>   ",buffer.length);
-    // console.log(buffer[0], buffer[1], buffer[2], buffer[3])
     while (offset < buffer.length) {
         // Channel is read from the first byte of the buffer (type of stream: stdout/stderr)
         const typeOfStream = buffer[offset];

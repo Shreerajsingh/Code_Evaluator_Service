@@ -1,4 +1,5 @@
 // import Docker from "dockerode";
+import DockerStreamOutput from "../types/dockerStreamOutput";
 import { CPP_IMAGE } from "../utils/constants";
 import createContainer from "./containerFactory";
 import decodeDockerStream from "./dockerHelper";
@@ -34,7 +35,7 @@ async function runCpp(code: string, inputTestCase: string) {
         rawLogBuffer.push(chunk);
     })
 
-    await new Promise((res) => {
+    const response: DockerStreamOutput = await new Promise((res) => {
         loggerStream.on('end', () => {
             console.log(rawLogBuffer);
             // Let's concat all the chunks all together
@@ -44,11 +45,13 @@ async function runCpp(code: string, inputTestCase: string) {
             console.log(decodedStream);
             console.log(decodedStream.stdout);
             
-            res(decodeDockerStream);
+            res(decodedStream);
         });
     })
 
     await cppDockerContainer.remove();
+
+    return response;
 }
 
 export default runCpp;

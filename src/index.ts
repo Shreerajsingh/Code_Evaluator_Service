@@ -4,7 +4,9 @@ import serverConfig from "./config/serverConfig";
 import apiRouter from "./routes";
 import sampleWorker from "./worker/sampleWorker";
 import bodyParser from "body-parser";
-import runCpp from "./containers/runCpp";
+import submissionWorker from "./worker/submissionWorker";
+import { Submission_Queue } from "./utils/constants";
+import submissionProducer from "./producer/submissionQueueProducer";
 
 const app: Express = express();     // No need to put Type:"Epress" bcs express() tself return that.
 
@@ -18,13 +20,13 @@ app.listen(serverConfig.PORT, () => {
     console.log(`Server started at port: ${serverConfig.PORT}`);
 
     sampleWorker('SampleQueue');
+    submissionWorker(Submission_Queue);
 
     const code = `
     #include <iostream>
     using namespace std;
 
     int main(){
-
 	    for(int i=0;i<3;i++) {
 		    for ( int j=0;j<3;j++) {
 		        cout<<"* ";
@@ -36,5 +38,13 @@ app.listen(serverConfig.PORT, () => {
     }
     `;
 
-    runCpp(code, "100");
+    const inputCase = `10`;
+
+    submissionProducer("SubmissionJob", {
+        "1234": {
+            language: "cpp",
+            inputCase,
+            code,
+        }
+    });
 });
