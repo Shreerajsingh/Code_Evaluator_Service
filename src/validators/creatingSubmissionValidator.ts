@@ -1,5 +1,4 @@
 import { ZodSchema } from "zod";
-import { CreatingSubmissionDto } from "../dtos/creatingSubmissionDto";
 import { NextFunction, Request, Response } from "express";
 
 

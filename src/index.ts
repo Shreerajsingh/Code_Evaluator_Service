@@ -4,6 +4,7 @@ import serverConfig from "./config/serverConfig";
 import apiRouter from "./routes";
 import sampleWorker from "./worker/sampleWorker";
 import bodyParser from "body-parser";
+import runPython from "./containers/runPythonDocker";
 
 const app: Express = express();     // No need to put Type:"Epress" bcs express() tself return that.
 
@@ -17,4 +18,12 @@ app.listen(serverConfig.PORT, () => {
     console.log(`Server started at port: ${serverConfig.PORT}`);
 
     sampleWorker('SampleQueue');
+
+    const code = `x = input()
+y = input()
+print("value of x:", x)
+print("value of y:", y)
+    `;
+
+    runPython(code, "100\n200");
 });
