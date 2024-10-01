@@ -42,7 +42,7 @@ app.listen(serverConfig.PORT, () => {
 
     submissionProducer("SubmissionJob", {
         "1234": {
-            language: "cpp",
+            language: "CPP",
             inputCase,
             code,
         }

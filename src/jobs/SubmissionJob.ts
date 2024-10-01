@@ -1,8 +1,8 @@
 import { Job } from "bullmq";
 import { IJob } from "../types/bullMqJobDefination";
 import { submissionPayload } from "../types/submissionPayload";
-import runCpp from "../containers/runCpp";
-
+import CodeExecutorStrategy from "../types/codeExecutorStrategy";
+import createExecutor from "../utils/ExecutorFactory";
 
 class SubmissionJob implements IJob {
     name: string;
@@ -19,11 +19,17 @@ class SubmissionJob implements IJob {
         if(job) {
             const key = Object.keys(this.payload)[0];
 
-            const language = this.payload[key].language;
+            const {language, code, inputCase} = this.payload[key];
 
-            if(language === 'cpp') {
-                const response = await runCpp(this.payload[key].code, this.payload[key].inputCase);
+            const codeExecutor: CodeExecutorStrategy | null = createExecutor(language);
 
+            if(codeExecutor != null) {
+                const response = await codeExecutor.execute(code, inputCase);
+                if(response.status == "COMPLETED") {
+                    console.log("Code executed successfully");
+                } else {
+                    console.log("Somthing went wrong with code execution");
+                }
                 console.log("Evaluated response is", response);
             }
         }
