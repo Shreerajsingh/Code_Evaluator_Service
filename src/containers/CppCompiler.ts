@@ -6,8 +6,9 @@ import decodeDockerStream from "./dockerHelper";
 
 
 class CppExecutor implements CodeExecutorStrategy {
-    async execute(code: string, inputTestCase: string) : Promise<ExecutionResponse> {
+    async execute(code: string, inputTestCase: string, outputTestCase: string) : Promise<ExecutionResponse> {
         console.log("Initilizing cpp Dock Cont");
+        console.log(outputTestCase);
 
         const rawLogBuffer: Buffer[] = [];
 

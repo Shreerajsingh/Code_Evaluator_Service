@@ -8,6 +8,7 @@ function submissionWorker(queueName: string) {
         async (job: Job) => {
             if(job.name == "SubmissionJob") {
                 console.log("Submission worker kicks in");
+                console.log(job.data);
                 const submissionJobInterface = await new SubmissionJob(job.data);
 
                 await submissionJobInterface.handle(job);

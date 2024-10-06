@@ -5,8 +5,9 @@ import createContainer from "./containerFactory";
 import decodeDockerStream from "./dockerHelper";
 
 class PythonExecutor implements CodeExecutorStrategy {
-    async execute(code: string, inputTestCase: string) : Promise<ExecutionResponse> {
+    async execute(code: string, inputTestCase: string, outputTestCase: string) : Promise<ExecutionResponse> {
         console.log("Initilizing Pyth Dock Cont");
+        console.log(outputTestCase);
 
         const rawLogBuffer: Buffer[] = [];
 

@@ -6,13 +6,16 @@ import decodeDockerStream from "./dockerHelper";
 
 
 class JavaExecutor implements CodeExecutorStrategy {
-    async execute(code: string, inputTestCase: string) : Promise<ExecutionResponse> {
+    async execute(code: string, inputTestCase: string, outputTestCase: string) : Promise<ExecutionResponse> {
+        console.log("Java executor called");
         console.log("Initilizing Java Dock Cont");
+
+        console.log(outputTestCase);
 
         const rawLogBuffer: Buffer[] = [];
 
         const runCommand = `echo '${code.replace(/'/g, `\\"`)}' > Main.java && javac Main.java && echo '${inputTestCase.replace(/'/g, `\\"`)}' | java Main`;
-        
+
         // const pythonDockerContainer = await createContainer(PYTHON_IMAGE, ["python3", "-c", code, "stty -echo"]);
         const javaDockerContainer = await createContainer(JAVA_IMAGE, [
             "/bin/sh",
